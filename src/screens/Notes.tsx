@@ -9,7 +9,7 @@ import { AuthUserContext } from '../context/authUserContext';
 import { collection, DocumentData, onSnapshot } from 'firebase/firestore';
 import { ActivityIndicator, AnimatedFAB, Searchbar, Provider, Menu, Divider, Button, FAB } from 'react-native-paper';
 
-export default function Home() {
+export default function Notes() {
     const { user }: any = React.useContext(AuthUserContext);
     const navigation = useNavigation<INavigate>();
     const [notas, setNotas] = React.useState<DocumentData | undefined | any>([]);
@@ -35,10 +35,14 @@ export default function Home() {
     }, [])
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Button onPress={() => signOut(auth)}>Desloguerse</Button>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#191F2F' }}>
             <Searchbar
+                inputStyle={{ color: 'white' }}
+                iconColor='#FFFFFF80'
+                placeholderTextColor='#FFFFFF80'
+                selectionColor='white'
                 placeholder="Search"
+                style={styles.searchbar}
                 onChangeText={onChangeSearch}
                 value={searchQuery}
             />
@@ -49,6 +53,7 @@ export default function Home() {
                     </View>
                     : notas.length > 0 ?
                         <FlatList
+                        style={{width: '98%', marginTop: 10}}
                             data={notas}
                             renderItem={({ item }) => (
                                 <Note title={item.title} id={item.id} description={item.description} date={item.date} />
@@ -57,21 +62,16 @@ export default function Home() {
                         />
                         :
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 }}>
-                            <Text>No hay notas</Text>
+                            <Text style={{ color: '#FFFFFF', opacity: 0.3, fontSize: 20 }}>Add your first note</Text>
                         </View>
             }
-            <AnimatedFAB
+            <FAB
                 icon='plus'
-                label={'Label'}
-                extended={false}
+                color='white'
                 onPress={() => navigation.navigate('FormNote', {
                     update: false
                 })}
-                visible={true}
-                animateFrom={'right'}
-                iconMode={'static'}
-                style={styles.fabStyle}
-            />
+                style={styles.fabStyle} />
         </View>
     )
 }
@@ -84,5 +84,12 @@ const styles = StyleSheet.create({
         bottom: 16,
         right: 16,
         position: 'absolute',
+        backgroundColor: '#7462D2'
     },
+    searchbar: {
+        backgroundColor: '#27314A',
+        width: '98%',
+        marginTop: 10,
+        color: '#FFFFFF',
+    }
 });
