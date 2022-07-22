@@ -12,15 +12,10 @@ export default function AddNote() {
         title: '',
         description: '',
         date: Date().slice(0, 15),
-        delete: false,
     })
 
     const onHandleAddNote = () => {
-        addDoc(collection(db, `users/${user.uid}/Notas`), {
-        title: info.title,
-        description: info.description,
-        date: info.date
-      });
+        addDoc(collection(db, `users/${user.uid}/Notas`), info);
       navigation.goBack();
     }
 

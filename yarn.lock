@@ -1476,6 +1476,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@callstack/react-theme-provider@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "@callstack/react-theme-provider@npm:3.0.7"
+  dependencies:
+    deepmerge: ^3.2.0
+    hoist-non-react-statics: ^3.3.0
+  peerDependencies:
+    react: ">=16.3.0"
+  checksum: a39524d2bbc29b66d77d30ab4c169ae57fa5a435a2447febb4643d7431d525ca6025acebf1fcdbebd761f54f16f1e40f6745cf60acd5776851e8c1d546a1f32f
+  languageName: node
+  linkType: hard
+
 "@egjs/hammerjs@npm:^2.0.17":
   version: 2.0.17
   resolution: "@egjs/hammerjs@npm:2.0.17"
@@ -4112,7 +4124,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-convert@npm:^1.9.0":
+"color-convert@npm:^1.9.0, color-convert@npm:^1.9.3":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
   dependencies:
@@ -4137,10 +4149,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-name@npm:~1.1.4":
+"color-name@npm:^1.0.0, color-name@npm:~1.1.4":
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
+  languageName: node
+  linkType: hard
+
+"color-string@npm:^1.6.0":
+  version: 1.9.1
+  resolution: "color-string@npm:1.9.1"
+  dependencies:
+    color-name: ^1.0.0
+    simple-swizzle: ^0.2.2
+  checksum: c13fe7cff7885f603f49105827d621ce87f4571d78ba28ef4a3f1a104304748f620615e6bf065ecd2145d0d9dad83a3553f52bb25ede7239d18e9f81622f1cc5
   languageName: node
   linkType: hard
 
@@ -4150,6 +4172,16 @@ __metadata:
   bin:
     color-support: bin.js
   checksum: 9b7356817670b9a13a26ca5af1c21615463b500783b739b7634a0c2047c16cef4b2865d7576875c31c3cddf9dd621fa19285e628f20198b233a5cfdda6d0793b
+  languageName: node
+  linkType: hard
+
+"color@npm:^3.1.2":
+  version: 3.2.1
+  resolution: "color@npm:3.2.1"
+  dependencies:
+    color-convert: ^1.9.3
+    color-string: ^1.6.0
+  checksum: f81220e8b774d35865c2561be921f5652117638dcda7ca4029262046e37fc2444ac7bbfdd110cf1fd9c074a4ee5eda8f85944ffbdda26186b602dd9bb05f6400
   languageName: node
   linkType: hard
 
@@ -5980,6 +6012,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-arrayish@npm:^0.3.1":
+  version: 0.3.2
+  resolution: "is-arrayish@npm:0.3.2"
+  checksum: 977e64f54d91c8f169b59afcd80ff19227e9f5c791fa28fa2e5bce355cbaf6c2c356711b734656e80c9dd4a854dd7efcf7894402f1031dfc5de5d620775b4d5f
+  languageName: node
+  linkType: hard
+
 "is-buffer@npm:^1.1.5, is-buffer@npm:~1.1.1, is-buffer@npm:~1.1.6":
   version: 1.1.6
   resolution: "is-buffer@npm:1.1.6"
@@ -7681,6 +7720,7 @@ __metadata:
     react-native: 0.68.2
     react-native-gesture-handler: ~2.2.1
     react-native-masked-view: ^0.2.0
+    react-native-paper: ^4.12.3
     react-native-reanimated: ^2.8.0
     react-native-safe-area-context: 4.2.4
     react-native-screens: ~3.11.1
@@ -8445,12 +8485,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-iphone-x-helper@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "react-native-iphone-x-helper@npm:1.3.1"
+  peerDependencies:
+    react-native: ">=0.42.0"
+  checksum: 024376646009a966e33e12fc2358751830818b0fb73b1c601a64eb5e490d2dc43eec23668991b985a8c412a84d087f20eb45bb9b593567c08b66e741b7bddda5
+  languageName: node
+  linkType: hard
+
 "react-native-masked-view@npm:^0.2.0":
   version: 0.2.0
   resolution: "react-native-masked-view@npm:0.2.0"
   peerDependencies:
     react-native: ^0.10.1
   checksum: 536a28aa9b72043f2a7b1855c818e34fc48ba9981d60d8c3f187a29b0498d2e95c38090c68cc4053919630d9974901ccafde2d98d47ce757607a727c9431bde3
+  languageName: node
+  linkType: hard
+
+"react-native-paper@npm:^4.12.3":
+  version: 4.12.3
+  resolution: "react-native-paper@npm:4.12.3"
+  dependencies:
+    "@callstack/react-theme-provider": ^3.0.7
+    color: ^3.1.2
+    react-native-iphone-x-helper: ^1.3.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-vector-icons: "*"
+  checksum: 61587a9c0ab555ed3d33546b48862743756329d6187dacaf5cdb3e6d70b2725ea562ed503a044807ee97200d631de8f8277f01d81fcdcce3c834c8877d97488f
   languageName: node
   linkType: hard
 
@@ -9217,6 +9281,15 @@ __metadata:
     bplist-parser: 0.3.1
     plist: ^3.0.5
   checksum: 3890b49db544096e6f35f53268901112be859c44b187528979f1a67e604b5b48b4cd6e5d6ee9e2e32aeb1e2535fe93e1cb102e2cf2bf5a37200d8884cb65b918
+  languageName: node
+  linkType: hard
+
+"simple-swizzle@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "simple-swizzle@npm:0.2.2"
+  dependencies:
+    is-arrayish: ^0.3.1
+  checksum: a7f3f2ab5c76c4472d5c578df892e857323e452d9f392e1b5cf74b74db66e6294a1e1b8b390b519fa1b96b5b613f2a37db6cffef52c3f1f8f3c5ea64eb2d54c0
   languageName: node
   linkType: hard
 

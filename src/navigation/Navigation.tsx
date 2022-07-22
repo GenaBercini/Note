@@ -3,14 +3,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types";
 import { onAuthStateChanged } from "firebase/auth";
-import Login from "../screens/Login";
 import SignIn from "../screens/SignIn";
+import SignUp from "../screens/SignUp";
 import Home from "../screens/Home";
 import { auth } from "../firebase/config";
 import { ActivityIndicator, View } from "react-native";
 import { AuthUserContext } from "../context/authUserContext";
 import NoteDetail from "../screens/NoteDetail";
 import FormNote from "../screens/FormNote";
+import { Text } from "react-native-paper";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -29,11 +30,15 @@ function NotesStack() {
                 <Stack.Screen 
                 name='Home' 
                 component={Home} 
-                options={{ headerShown: false }}/>
+                options={{ headerShown: true,
+                  headerLeft:() => (
+                    <Text>Home</Text>
+                ) }}
+                />
                 <Stack.Screen 
                 name='FormNote' 
                 component={FormNote}  
-                options={({route}: any) => ({title: route.params.title, presentation: 'containedModal' , animation: 'slide_from_bottom', headerShown: route.params.title ? true : false})}/>
+                options={({route}: any) => ({title: route.params.title, presentation: 'containedModal' , animation: 'slide_from_right', headerShown: true, headerTitle: route.params.title ? route.params.title:  'Add Note'})}/>
                 <Stack.Screen 
                 name='NoteDetail' 
                 component={NoteDetail}  
@@ -44,14 +49,14 @@ function NotesStack() {
 
 function AuthStack() {
     return (
-        <Stack.Navigator initialRouteName="Login">
-                <Stack.Screen 
-                name='Login' 
-                component={Login} 
-                options={{ headerShown: false }}/>
+        <Stack.Navigator initialRouteName="SignIn">
                 <Stack.Screen 
                 name='SignIn' 
                 component={SignIn} 
+                options={{ headerShown: false, animation: 'slide_from_left' }}/>
+                <Stack.Screen 
+                name='SignUp' 
+                component={SignUp} 
                 options={{ headerShown: false,  animation: 'slide_from_right' }}/>
             </Stack.Navigator>
     )
