@@ -8,7 +8,7 @@ import { collection, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { Card, Paragraph, Title, Button, FAB, Avatar } from 'react-native-paper';
 
-export function Note({ id, description, date, title }: INotesProps) {
+export function Note({ id, description, date, title, color }: INotesProps) {
     const { user }: any = React.useContext(AuthUserContext);
     const navigation = useNavigation<INavigate>();
 
@@ -35,9 +35,10 @@ export function Note({ id, description, date, title }: INotesProps) {
                 title: title,
                 date: date,
                 description: description,
+                color: color,
                 onHandleDeleteNote: onHandleDeleteNote
             })}
-                style={{ backgroundColor: '#7462D2' }}>
+                style={{ backgroundColor: `${color}`}}>
                 <Card.Title titleStyle={{ color: 'white' }} title={title} subtitle={date} right={rightContent} />
                 <Card.Content>
                     <Paragraph>{description}</Paragraph>

@@ -4,7 +4,7 @@ export type RootStackParamList = {
   SignIn: undefined;
     SignUp: undefined;
     Notes: undefined;
-    FormNote: undefined;
+    AddNote: undefined;
     NoteDetail: undefined;
   };
 
@@ -13,6 +13,7 @@ export interface INotesProps  {
   title: string;
   date: string;
   description: string;
+  color: string;
 }
   
 export interface INavigate {

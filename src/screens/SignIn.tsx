@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
-import { Text, TextInput, View, StyleSheet, ImageBackground, Button, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native';
-import { color } from 'react-native-reanimated';
+import { View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { TextInput, Text, HelperText, Button, Card } from 'react-native-paper';
 import { INavigate } from '../../types';
 import { onHandleLogin } from '../firebase/auth';
 const image = require('../../assets/Login.jpg')
@@ -15,38 +15,47 @@ export default function SignIn() {
     })
 
     return (
-            <View style={style.container}>
-                <Image source={image} style={style.image}/>
-                <SafeAreaView style={style.form}>
-                    <Text style={style.title}>Sign In</Text>
-                    <TextInput
-                        keyboardType='email-address'
-                        textContentType='emailAddress'
-                        autoCapitalize='none'
-                        style={style.input}
-                        value={userData.email}
-                        onChangeText={(email) => setUserData({ ...userData, email: email })}
-                        placeholder='Email' />
-                    <TextInput
-                        style={style.input}
-                        keyboardType='email-address'
-                        textContentType='password'
-                        autoCapitalize='none'
-                        secureTextEntry={true}
-                        value={userData.password}
-                        onChangeText={(password) => setUserData({ ...userData, password: password })}
-                        placeholder='Password' />
-                        <TouchableOpacity onPress={() => onHandleLogin(userData.email, userData.password)}>
-                            <Text style={style.button}>Sign In</Text>
-                        </TouchableOpacity>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', top: 20}}>
-                        <Text style={style.text}>Don't have an account ?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                            <Text style={{color: '#7462D2', fontSize: 15}}>Sign Up</Text>
-                        </TouchableOpacity>
-                    </View>
-                </SafeAreaView>
-            </View>
+        <View style={style.container}>
+            <Card style={{height: '40%'}}>
+                <Card.Cover source={image} style={style.image}/>
+            </Card>
+            <SafeAreaView style={style.form}>
+                <Text style={style.title}>Sign In</Text>
+                <TextInput
+                    mode='outlined'
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
+                    autoCapitalize='none'
+                    style={style.input}
+                    value={userData.email}
+                    onChangeText={(email) => setUserData({ ...userData, email: email })}
+                    placeholder='Email' />
+                <HelperText type="error" visible={true}>
+                    Email address is invalid!
+                </HelperText>
+                <TextInput
+                    mode='outlined'
+                    style={style.input}
+                    keyboardType='email-address'
+                    textContentType='password'
+                    autoCapitalize='none'
+                    secureTextEntry={true}
+                    value={userData.password}
+                    onChangeText={(password) => setUserData({ ...userData, password: password })}
+                    placeholder='Password'
+                    right={<TextInput.Icon name="eye" />} />
+                <HelperText type="error" visible={true}>
+                    Email address is invalid!
+                </HelperText>
+                <Button style={style.button} color='white' onPress={() => onHandleLogin(userData.email, userData.password)}>Sign In</Button>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', top: 20 }}>
+                    <Text style={style.text}>Don't have an account ?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={{ color: '#7462D2', fontSize: 15 }}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </View>
     )
 }
 
@@ -57,7 +66,7 @@ const style = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: '40%',
+        height: '100%'
     },
     title: {
         fontSize: 40,
@@ -71,11 +80,7 @@ const style = StyleSheet.create({
     },
     input: {
         backgroundColor: '#293A70',
-        height: 50,
-        marginBottom: 20,
-        padding: 12,
-        borderRadius: 10,
-        color: '#FFFFFF'
+        height: 50
     },
     button: {
         backgroundColor: '#7462D2',
