@@ -1,6 +1,7 @@
+import { DrawerActionType } from "@react-navigation/native";
 
 export type RootStackParamList = {
-  DrawerStack: undefined;
+  NotesStack: undefined;
   SignIn: undefined;
     SignUp: undefined;
     Notes: undefined;
@@ -15,10 +16,11 @@ export interface INotesProps  {
   description: string;
   color: string;
 }
-  
+
 export interface INavigate {
     navigate: (param1: string, param2?: object) =>  void;
     goBack: () => void;
     setParams: () => void;
     setOptions: (param1: object) => void;
+    dispatch: (param1: DrawerActionType) => void
 }

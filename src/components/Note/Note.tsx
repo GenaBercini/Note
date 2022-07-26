@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { View, Text, TouchableOpacity } from 'react-native'
-import { INavigate } from '../../types';
-import { AuthUserContext } from '../context/authUserContext';
-import { INotesProps } from '../../types';
+import { View} from 'react-native'
+import { INavigate } from '../../../types';
+import { AuthUserContext } from '../../context/authUserContext';
+import { INotesProps } from '../../../types';
 import { collection, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase/config';
-import { Card, Paragraph, Title, Button, FAB, Avatar } from 'react-native-paper';
+import { db } from '../../firebase/config';
+import { Card, Paragraph, IconButton } from 'react-native-paper';
+import { style } from './Styles'
 
 export function Note({ id, description, date, title, color }: INotesProps) {
     const { user }: any = React.useContext(AuthUserContext);
@@ -18,18 +19,21 @@ export function Note({ id, description, date, title, color }: INotesProps) {
         deleteDoc(doc(colRef, id));
     }
 
-    const rightContent = (props: any) => {
+    const rightContent = () => {
         return (
-            <FAB {...props}
-                icon='trash-can'
-                small
+            <IconButton
+                animated={true}
+                style={style.deleteButton}
+                icon="trash-can"
+                color='white'
+                size={25}
                 onPress={() => onHandleDeleteNote(true)}
-                style={{ backgroundColor: '#7462D2', marginRight: 5, marginBottom: 20 }} />
+            />
         )
     }
 
     return (
-        <View style={{ marginBottom: 10 }}>
+        <View style={style.container}>
             <Card onPress={() => navigation.navigate('NoteDetail', {
                 id: id,
                 title: title,
@@ -38,8 +42,8 @@ export function Note({ id, description, date, title, color }: INotesProps) {
                 color: color,
                 onHandleDeleteNote: onHandleDeleteNote
             })}
-                style={{ backgroundColor: `${color}`}}>
-                <Card.Title titleStyle={{ color: 'white' }} title={title} subtitle={date} right={rightContent} />
+                style={{ backgroundColor: `${color}` }}>
+                <Card.Title titleStyle={style.title} title={title} subtitle={date} right={rightContent} />
                 <Card.Content>
                     <Paragraph>{description}</Paragraph>
                 </Card.Content>

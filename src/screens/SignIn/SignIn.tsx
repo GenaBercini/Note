@@ -1,10 +1,11 @@
-import { useNavigation } from '@react-navigation/native'
-import * as React from 'react'
-import { View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import { TextInput, Text, HelperText, Button, Card } from 'react-native-paper';
-import { INavigate } from '../../types';
-import { onHandleLogin } from '../firebase/auth';
-const image = require('../../assets/Login.jpg')
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { Button, Card, HelperText, Text, TextInput } from 'react-native-paper';
+import { INavigate } from '../../../types';
+import { onHandleLogin } from '../../firebase/auth';
+import { style } from './Styles';
+const image = require('../../../assets/Login.jpg')
 
 
 export default function SignIn() {
@@ -16,8 +17,8 @@ export default function SignIn() {
 
     return (
         <View style={style.container}>
-            <Card style={{height: '40%'}}>
-                <Card.Cover source={image} style={style.image}/>
+            <Card style={style.imageContainer}>
+                <Card.Cover source={image} style={style.image} />
             </Card>
             <SafeAreaView style={style.form}>
                 <Text style={style.title}>Sign In</Text>
@@ -48,50 +49,13 @@ export default function SignIn() {
                     Email address is invalid!
                 </HelperText>
                 <Button style={style.button} color='white' onPress={() => onHandleLogin(userData.email, userData.password)}>Sign In</Button>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', top: 20 }}>
-                    <Text style={style.text}>Don't have an account ?</Text>
+                <View style={style.haveAccount}>
+                    <Text style={style.haveAccountText}>Don't have an account ?</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                        <Text style={{ color: '#7462D2', fontSize: 15 }}>Sign Up</Text>
+                        <Text style={style.haveAccountButton}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </View>
     )
 }
-
-const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#191F2F',
-    },
-    image: {
-        width: '100%',
-        height: '100%'
-    },
-    title: {
-        fontSize: 40,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        bottom: 20
-    },
-    text: {
-        color: '#FFFFFF',
-        marginRight: 5
-    },
-    input: {
-        backgroundColor: '#293A70',
-        height: 50
-    },
-    button: {
-        backgroundColor: '#7462D2',
-        borderRadius: 10,
-        textAlign: 'center',
-        padding: 5,
-        fontSize: 20
-    },
-    form: {
-        flex: 1,
-        justifyContent: 'center',
-        marginHorizontal: 30
-    }
-})

@@ -1,19 +1,21 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { DrawerActions, NavigationContainer, useNavigation, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types";
+import { INavigate, RootStackParamList } from "../../types";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import SignIn from "../screens/SignIn";
-import SignUp from "../screens/SignUp";
-import Notes from "../screens/Notes";
+import SignIn from "../screens/SignIn/SignIn";
+import SignUp from "../screens/SignUp/SignUp";
+import Notes from "../screens/Notes/Notes";
 import { auth } from "../firebase/config";
-import { ActivityIndicator, View, StyleSheet } from "react-native";
+import { ActivityIndicator, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AuthUserContext } from "../context/authUserContext";
-import NoteDetail from "../screens/NoteDetail";
-import { Button, Divider, Text, Drawer, Avatar, Title, Paragraph, Caption, TouchableRipple, Switch } from "react-native-paper";
+import NoteDetail from "../screens/NoteDetail/NoteDetail";
+import { Button, Divider, Text, Drawer, Avatar, Title, Paragraph, Caption, TouchableRipple, Switch, Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme, } from "react-native-paper";
 import { createDrawerNavigator, DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
+import { CombinedDarkTheme, CombinedDefaultTheme } from "../../Theme";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import AddNote from "../screens/AddNote";
+import AddNote from "../screens/AddNote/AddNote";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const DrawerNavigator = createDrawerNavigator<RootStackParamList>();
@@ -27,111 +29,145 @@ export function AuthUserProvider({ children }: any) {
     )
 }
 
-function CustomDrawerContent(props: any) {
-    const { user }: any = React.useContext(AuthUserContext);
+function CustomDrawerContent({props, toggleTheme, isDarkTheme}: any) {
+    const [userData, setUserData] = React.useState({
+        name: '',
+        phone: '',
+        email: '',
+        password: '',
+    });
+    const getUserData = () => {
+        try {
+            AsyncStorage.getItem('currentUser')
+                .then(user => {
+                    if (user !== null) {
+                        setUserData(JSON.parse(user));
+                    }
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    React.useEffect(() => {
+        getUserData();
+    }, [])
+
     return (
-        <DrawerContentScrollView {...props}>
-            <View
-                style={
-                    styles.drawerContent
-                }
-            >
-                <View style={styles.userInfoSection}>
-                    <Title style={styles.title}>Hi {user.email}</Title>
-                    <Caption style={styles.caption}>{user.email}</Caption>
-                    <View style={styles.row}>
-                        <View style={styles.section}>
-                            <Paragraph style={[styles.paragraph, styles.caption]}>
-                                202
-                            </Paragraph>
-                            <Caption style={styles.caption}>Following</Caption>
-                        </View>
-                    </View>
-                </View>
-                <Drawer.Section style={styles.drawerSection}>
-                    <DrawerItem
-                        icon={({ color, size }) => (
-                            <MaterialCommunityIcons
-                                name="account-outline"
-                                color={color}
-                                size={size}
+        <View style={styles.drawerContent}>
+            <DrawerContentScrollView {...props}>
+                <View style={styles.drawerContent}>
+                    <View style={styles.userInfoSection}>
+                        <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                            <Avatar.Text
+                                label={userData?.name[0]?.toUpperCase()}
+                                size={50}
                             />
-                        )}
-                        label="Profile"
-                        onPress={() => { }}
-                    />
-                    <DrawerItem
-                        icon={({ color, size }) => (
-                            <MaterialCommunityIcons name="tune" color={color} size={size} />
-                        )}
-                        label="Preferences"
-                        onPress={() => { }}
-                    />
-                    <DrawerItem
-                        icon={({ color, size }) => (
-                            <MaterialCommunityIcons
-                                name="bookmark-outline"
-                                color={color}
-                                size={size}
-                            />
-                        )}
-                        label="Bookmarks"
-                        onPress={() => { }}
-                    />
-                </Drawer.Section>
-                <Drawer.Section title="Preferences">
-                    <TouchableRipple onPress={() => { }}>
-                        <View style={styles.preference}>
-                            <Text>Dark Theme</Text>
-                            <View pointerEvents="none">
-                                <Switch value={false} />
+                            <View style={{ marginLeft: 15 }}>
+                                <Title style={{ color: 'white' }}>{userData.name}</Title>
+                                <Caption style={{ color: 'white' }}>{userData.email}</Caption>
                             </View>
                         </View>
-                    </TouchableRipple>
-                </Drawer.Section>
-            </View>
-        </DrawerContentScrollView>
+                    </View>
+                    <Drawer.Section>
+                        <DrawerItem
+                            icon={() => (
+                                <MaterialCommunityIcons name='account'
+                                    color={'white'}
+                                    size={20}
+                                />
+                            )}
+                            label='Profile'
+                            onPress={() => console.log('Work in these')}
+                        />
+                    </Drawer.Section>
+                    <Drawer.Section title="Preferences">
+                        <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <MaterialCommunityIcons name={'brightness-2'} size={30} color={isDarkTheme ? 'black' : 'white'}/><Switch value={isDarkTheme} onValueChange={() => toggleTheme()} /><MaterialCommunityIcons name={'brightness-5'} size={30} color={isDarkTheme ? 'white' : 'black'}/>
+                        </View>
+                    </Drawer.Section>
+                </View>
+            </DrawerContentScrollView>
+            <Drawer.Section style={styles.signout}>
+                <DrawerItem
+                    icon={() => (
+                        <MaterialCommunityIcons name='logout-variant'
+                            color='white'
+                            size={25}
+                        />
+                    )}
+                    label='Sign Out'
+                    labelStyle={{ color: 'white' }}
+                    onPress={() => signOut(auth)}
+                />
+            </Drawer.Section>
+        </View>
     )
 }
 
-function DrawerStack() {
+function DrawerStack({toggleTheme, isDarkTheme}: any) {
     return (
         <DrawerNavigator.Navigator
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
+            drawerContent={(props) => <CustomDrawerContent {...props} toggleTheme={toggleTheme} isDarkTheme={isDarkTheme}/>}
             screenOptions={{
+                headerShown: false,
                 drawerStyle: {
                     backgroundColor: '#27314A',
-                    width: 200,
+                    width: 250,
                 },
                 headerStyle: { backgroundColor: '#27314A' },
                 headerTintColor: 'white',
+                drawerType: 'back',
+                drawerStatusBarAnimation: 'fade'
             }}>
-            <DrawerNavigator.Screen name='Notes' component={Notes} />
+            <DrawerNavigator.Screen name='NotesStack' component={NotesStack} />
         </DrawerNavigator.Navigator>
     )
 }
 
 function NotesStack() {
+
+    const navigation = useNavigation<INavigate>();
     return (
         <Stack.Navigator
-            initialRouteName="DrawerStack"
+            initialRouteName="Notes"
             screenOptions={{
                 headerStyle: { backgroundColor: '#27314A' },
                 headerTintColor: 'white',
             }}>
             <Stack.Screen
-                name='DrawerStack'
-                component={DrawerStack}
-                options={{ headerShown: false }}
+                name='Notes'
+                component={Notes}
+                options={
+                    {
+                        headerTitleStyle: {
+                            fontSize: 30,
+                        },
+                        headerTitleAlign: 'center',
+                        headerBackVisible: false,
+                        headerLeft: () => (
+                            <TouchableOpacity style={{ borderWidth: 0, height: 40, justifyContent: 'flex-end' }} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+                                <MaterialCommunityIcons name="menu" size={30} color='white' />
+                            </TouchableOpacity>
+                        )
+                    }}
             />
             <Stack.Screen
                 name='AddNote'
                 component={AddNote}
-                options={{ presentation: 'containedModal', animation: 'slide_from_right', headerShown: true }} />
+                options={{
+                    presentation: 'containedModal',
+                    animation: 'slide_from_right'
+                }} />
             <Stack.Screen
                 name='NoteDetail'
                 component={NoteDetail}
-                options={({ route }: any) => ({ title: route.params.title, presentation: 'containedModal', animation: 'slide_from_right' })} />
+                options={({ route }: any) => ({
+                    title: route.params.title,
+                    presentation: 'containedModal',
+                    animation: 'slide_from_right',
+                    headerTitleAlign: 'center'
+                })} />
         </Stack.Navigator>
     )
 }
@@ -162,6 +198,14 @@ export function Navigation() {
         return () => unsuscribe();
     }, [user]);
 
+    const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+
+  const theme = isDarkTheme ? CombinedDarkTheme : CombinedDefaultTheme;
+
+  function toggleTheme() {
+    setIsDarkTheme(isDark => !isDark);
+  }
+
     if (loading) {
         return (
             <View>
@@ -170,11 +214,13 @@ export function Navigation() {
         )
     }
     return (
-        <NavigationContainer>
-            {
-                user ? <NotesStack /> : <AuthStack />
-            }
-        </NavigationContainer>
+        <PaperProvider theme={theme}>
+            <NavigationContainer theme={theme}>
+                {
+                    user ? <DrawerStack toggleTheme={toggleTheme} isDarkTheme={isDarkTheme}/> : <AuthStack />
+                }
+            </NavigationContainer>
+        </PaperProvider>
     )
 }
 
@@ -183,7 +229,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     userInfoSection: {
-        paddingLeft: 20,
+        padding: 20,
+        borderBottomColor: 'white',
+        borderBottomWidth: 2
     },
     title: {
         marginTop: 20,
@@ -194,10 +242,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 14,
     },
-    row: {
-        marginTop: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
+    signout: {
+        backgroundColor: '#FFFFFF10',
+        marginHorizontal: 4,
+        borderRadius: 10,
     },
     section: {
         flexDirection: 'row',
