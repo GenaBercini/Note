@@ -6,7 +6,6 @@ export const style = StyleSheet.create({
     },
     optionsContainer: {
         flexDirection: 'row',
-        backgroundColor: '#27314A80',
         justifyContent: 'space-between',
         borderRadius: 10,
         margin: 5
@@ -14,13 +13,11 @@ export const style = StyleSheet.create({
     colorsOptions: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#27314A',
         borderRadius: 10
     },
     updateButtons: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#27314A',
         borderRadius: 10
     },
     title: {

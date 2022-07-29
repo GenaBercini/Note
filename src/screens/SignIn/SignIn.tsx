@@ -3,7 +3,7 @@ import * as React from 'react';
 import { SafeAreaView, TouchableOpacity, View } from 'react-native';
 import { Button, Card, HelperText, Text, TextInput } from 'react-native-paper';
 import { INavigate } from '../../../types';
-import { onHandleLogin } from '../../firebase/auth';
+import { login } from '../../firebase/auth';
 import { style } from './Styles';
 const image = require('../../../assets/Login.jpg')
 
@@ -48,7 +48,7 @@ export default function SignIn() {
                 <HelperText type="error" visible={true}>
                     Email address is invalid!
                 </HelperText>
-                <Button style={style.button} color='white' onPress={() => onHandleLogin(userData.email, userData.password)}>Sign In</Button>
+                <Button style={style.button} color='white' onPress={() => login(userData.email, userData.password)}>Sign In</Button>
                 <View style={style.haveAccount}>
                     <Text style={style.haveAccountText}>Don't have an account ?</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>

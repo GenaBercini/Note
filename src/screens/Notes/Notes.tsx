@@ -10,14 +10,14 @@ import { ActivityIndicator, FAB, useTheme } from 'react-native-paper';
 import { style } from './Styles';
 
 export default function Notes() {
-    const { user }: any = React.useContext(AuthUserContext);
+    const { user } = React.useContext(AuthUserContext);
     const navigation = useNavigation<INavigate>();
     const [notas, setNotas] = React.useState<DocumentData | undefined | any>([]);
     const [loading, setLoading] = React.useState(true);
     const {colors} = useTheme();
 
     React.useEffect(() => {
-        const colRef = collection(db, `users/${user.uid}/Notas`);
+        const colRef = collection(db, `users/${user?.uid}/Notas`);
         onSnapshot(colRef, (snapshot) => {
             let notes: object[] = []
             snapshot.docs.forEach(element => {
@@ -36,11 +36,11 @@ export default function Notes() {
     }, [])
 
 return (
-    <View style={{ ...style.container, backgroundColor: `${colors.primary}` }}>
+    <View style={{ ...style.container, backgroundColor: `${colors.background}` }}>
         {
             loading ?
                 <View style={style.loading}>
-                    <ActivityIndicator animating={true} color='#BBBBBB' size='large' />
+                    <ActivityIndicator animating={true} color={`${colors.surface}`} size='large' />
                 </View>
                 : notas.length > 0 ?
                     <FlatList
@@ -53,14 +53,14 @@ return (
                     />
                     :
                     <View style={style.addFirstNote}>
-                        <Text style={style.addFirstNoteText}>Add your first note</Text>
+                        <Text style={{...style.addFirstNoteText,   color: `${colors.text}`,}}>Add your first note</Text>
                     </View>
         }
         <FAB
             icon='plus'
-            color='white'
+            color={`${colors.surface}`}
             onPress={() => navigation.navigate('AddNote')}
-            style={style.fabStyle} />
+            style={{...style.fabStyle, backgroundColor: `${colors.primary}`}} />
     </View>
 )
 }

@@ -1,31 +1,29 @@
-import { DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme, } from "react-native-paper";
-import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, } from "@react-navigation/native";
+import { DarkTheme, DefaultTheme} from "react-native-paper";
 
 export const CombinedDefaultTheme = {
-    ...PaperDefaultTheme,
-    ...NavigationDefaultTheme,
+    ...DefaultTheme,
+    roundness: 2,
+    version: 3,
     colors: {
-        ...PaperDefaultTheme.colors,
-        ...NavigationDefaultTheme.colors,
-        primary: 'rgb(255, 45, 85)',
-        background: 'rgb(242, 242, 242)',
-        secondary: 'rgb(255, 255, 255)',
-        text: 'rgb(28, 28, 30)',
-        border: 'rgb(199, 199, 204)',
+        ...DefaultTheme.colors,
+        primary: '#A5B8E4',
+        surface: '#27314A',
+        background: '#E6E9F0',
+        text: '#000000',
         notification: 'rgb(255, 69, 58)',
     },
 };
+
 export const CombinedDarkTheme = {
-    ...PaperDarkTheme,
-    ...NavigationDarkTheme,
+    ...DarkTheme,
+    roundness: 2,
+    version: 3,
     colors: {
-        ...PaperDarkTheme.colors,
-        ...NavigationDarkTheme.colors,
-        primary: '#191F2F',
-        background: 'rgb(242, 242, 242)',
-        secondary: 'rgb(255, 255, 255)',
-        text: 'rgb(28, 28, 30)',
-        border: 'rgb(199, 199, 204)',
+        ...DarkTheme.colors,
+        primary: '#27314A',
+        surface: '#FFFEFF',
+        background: '#191F2F',
+        text: '#FFFFFF',
         notification: 'rgb(255, 69, 58)',
     },
 };

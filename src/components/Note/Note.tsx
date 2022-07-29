@@ -6,12 +6,13 @@ import { AuthUserContext } from '../../context/authUserContext';
 import { INotesProps } from '../../../types';
 import { collection, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase/config';
-import { Card, Paragraph, IconButton } from 'react-native-paper';
+import { Card, Paragraph, IconButton, useTheme } from 'react-native-paper';
 import { style } from './Styles'
 
 export function Note({ id, description, date, title, color }: INotesProps) {
     const { user }: any = React.useContext(AuthUserContext);
     const navigation = useNavigation<INavigate>();
+    const { colors } = useTheme();
 
     const onHandleDeleteNote = (inHome: boolean) => {
         const colRef = collection(db, `users/${user.uid}/Notas`);
@@ -42,10 +43,10 @@ export function Note({ id, description, date, title, color }: INotesProps) {
                 color: color,
                 onHandleDeleteNote: onHandleDeleteNote
             })}
-                style={{ backgroundColor: `${color}` }}>
-                <Card.Title titleStyle={style.title} title={title} subtitle={date} right={rightContent} />
+                style={{...style.card, backgroundColor: `${color}` }}>
+                <Card.Title titleStyle={{color: `${colors.text}`}} title={title} subtitle={date} subtitleStyle={style.title} right={rightContent} />
                 <Card.Content>
-                    <Paragraph>{description}</Paragraph>
+                    <Paragraph style={style.title}>{description}</Paragraph>
                 </Card.Content>
             </Card>
         </View>
