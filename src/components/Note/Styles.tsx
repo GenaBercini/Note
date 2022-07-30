@@ -23,6 +23,13 @@ export const style = StyleSheet.create({
     deleteButton: {
         marginRight: 10,
         marginBottom: 20,
-        color: 'white'
+        borderRadius: 18,
+        shadowColor: "#00000099",
+        shadowOffset: {
+            width: 1,
+            height: 1,
+        },
+        shadowRadius: 10,
+        elevation: 10,
     }
 })

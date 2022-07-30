@@ -12,7 +12,7 @@ import { style } from './Styles'
 export function Note({ id, description, date, title, color }: INotesProps) {
     const { user }: any = React.useContext(AuthUserContext);
     const navigation = useNavigation<INavigate>();
-    const { colors } = useTheme();
+    const { colors, dark } = useTheme();
 
     const onHandleDeleteNote = (inHome: boolean) => {
         const colRef = collection(db, `users/${user.uid}/Notas`);
@@ -44,7 +44,7 @@ export function Note({ id, description, date, title, color }: INotesProps) {
                 onHandleDeleteNote: onHandleDeleteNote
             })}
                 style={{...style.card, backgroundColor: `${color}` }}>
-                <Card.Title titleStyle={{color: `${colors.text}`}} title={title} subtitle={date} subtitleStyle={style.title} right={rightContent} />
+                <Card.Title titleStyle={{color: `${colors.text}`, textShadowColor: `${dark ? '#000' : '#FFF' }`, textShadowOffset: { width: 0.5, height: 1 }, textShadowRadius: 10,}} title={title} subtitle={date} subtitleStyle={style.title} right={rightContent} />
                 <Card.Content>
                     <Paragraph style={style.title}>{description}</Paragraph>
                 </Card.Content>

@@ -23,6 +23,7 @@ export default {
       "supportsTablet": true
     },
     "android": {
+      "package": "notesapp.apk",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

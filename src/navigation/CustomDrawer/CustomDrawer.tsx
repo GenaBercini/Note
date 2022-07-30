@@ -7,17 +7,19 @@ import { DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./Styles";
+import { ICustomDrawerProps } from "../../../types";
 
-export function CustomDrawer({ props, toggleTheme, isDarkTheme }: any) {
+export function CustomDrawer({ state, toggleTheme, isDarkTheme }: ICustomDrawerProps) {
     const [userData, setUserData] = React.useState({
         name: '',
-        phone: '',
         email: '',
-        password: '',
     });
-
     const { colors } = useTheme();
 
+    React.useEffect(() => {
+        getUserData();
+    })
+    
     const getUserData = () => {
         try {
             AsyncStorage.getItem('currentUser')
@@ -42,10 +44,6 @@ export function CustomDrawer({ props, toggleTheme, isDarkTheme }: any) {
         }
     }
 
-    React.useEffect(() => {
-        getUserData();
-    }, [])
-
     const onHandleSignOut = () => {
         removeUserData();
         signOut(auth)
@@ -53,7 +51,7 @@ export function CustomDrawer({ props, toggleTheme, isDarkTheme }: any) {
 
     return (
         <View style={styles.drawerContent}>
-            <DrawerContentScrollView {...props}>
+            <DrawerContentScrollView {...state}>
                 <View style={styles.drawerContent}>
                     <View style={{ ...styles.userInfoSection, borderBottomColor: `${colors.text}`, }}>
                         <View style={{ flexDirection: 'row', marginTop: 15 }}>

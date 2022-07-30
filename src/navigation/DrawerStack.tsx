@@ -7,7 +7,7 @@ import { CustomDrawer } from "./CustomDrawer/CustomDrawer";
 
 const DrawerNavigator = createDrawerNavigator<RootStackParamList>()
 
-export function DrawerStack({ toggleTheme, isDarkTheme }: any) {
+export function DrawerStack({ toggleTheme, isDarkTheme }: { toggleTheme: () => void, isDarkTheme: boolean }) {
     const { colors } = useTheme();
 
     return (

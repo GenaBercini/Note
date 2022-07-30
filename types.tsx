@@ -1,4 +1,5 @@
-import { DrawerActionType } from "@react-navigation/native";
+import { DrawerDescriptorMap, DrawerNavigationHelpers } from "@react-navigation/drawer/lib/typescript/src/types";
+import { DrawerActionType, DrawerNavigationState, ParamListBase } from "@react-navigation/native";
 import { Dispatch, SetStateAction } from "react";
 
 export type RootStackParamList = {
@@ -9,6 +10,14 @@ export type RootStackParamList = {
   AddNote: undefined;
   NoteDetail: undefined;
 };
+
+export interface ICustomDrawerProps {
+  toggleTheme: () => void;
+  isDarkTheme: boolean;
+  state: DrawerNavigationState<ParamListBase>;
+  navigation: DrawerNavigationHelpers;
+  descriptors: DrawerDescriptorMap
+}
 
 export interface INotesProps {
   id: string;

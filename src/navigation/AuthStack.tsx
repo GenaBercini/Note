@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types";
-import SignIn from "../screens/SignIn/SignIn";
-import SignUp from "../screens/SignUp/SignUp";
+import SignIn from "../screens/Sign/SignIn/SignIn";
+import SignUp from "../screens/Sign/SignUp/SignUp";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

@@ -1,12 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
-import { addDoc, collection } from 'firebase/firestore'
 import * as React from 'react'
-import { View } from 'react-native'
-import { TextInput, RadioButton, IconButton, useTheme } from 'react-native-paper'
+import { View, Alert } from 'react-native'
+import { TextInput } from 'react-native-paper'
 import { AuthUserContext } from '../../context/authUserContext';
 import { style } from './Styles'
-import { db } from '../../firebase/config'
 import ColorOptions from '../../components/ColorOptions/ColorOptions'
+import { addNote } from '../../firebase/firestore'
 
 export default function AddNote() {
     const navigation = useNavigation()
@@ -19,8 +18,13 @@ export default function AddNote() {
     })
 
     const onHandleAddNote = () => {
-        addDoc(collection(db, `users/${user?.uid}/Notas`), noteData);
-        navigation.goBack();
+        if(noteData.title.length > 0 && noteData.date.length > 0) {
+            addNote(noteData, user?.uid);
+            navigation.goBack();
+        }
+        else {
+            Alert.alert('Ups..', 'The note should have a title and a description')
+        }
     }
 
     return (
@@ -33,7 +37,7 @@ export default function AddNote() {
                 activeOutlineColor={noteData.color}
                 onChangeText={(text) => setNoteData({ ...noteData, title: text })}
                 placeholder='Title'
-                placeholderTextColor='black'
+                placeholderTextColor='#00000090'
                 theme={{ colors: { text: '#000000' } }}
                 keyboardType='ascii-capable'
                 value={noteData.title} />
@@ -44,10 +48,10 @@ export default function AddNote() {
                 activeOutlineColor={noteData.color}
                 numberOfLines={29}
                 multiline={true}
-                placeholderTextColor='black'
+                placeholderTextColor='#00000090'
                 theme={{ colors: { text: '#000000' } }}
                 onChangeText={(text) => setNoteData({ ...noteData, description: text })}
-                placeholder='description'
+                placeholder='Description'
                 keyboardType='ascii-capable'
                 value={noteData.description} />
         </View>

@@ -1,19 +1,18 @@
-import { collection,doc, getDoc, updateDoc } from 'firebase/firestore';
 import * as React from 'react'
 import { View } from 'react-native'
-import { db } from '../../firebase/config';
-import { FAB, IconButton, Portal, Provider, RadioButton, Text, TextInput, useTheme } from 'react-native-paper';
+import { FAB, Portal, Provider, Text, TextInput, useTheme } from 'react-native-paper';
 import { style } from './Styles';
 import { AuthUserContext } from '../../context/authUserContext';
 import ColorOptions from '../../components/ColorOptions/ColorOptions';
 import { IRouteProps } from '../../../types';
+import { getNote, updateNote } from '../../firebase/firestore';
 
 export default function NoteDetail({ route }: IRouteProps) {
     const { id, title, description, color, date, onHandleDeleteNote} = route.params
     const { user } = React.useContext(AuthUserContext);
     const {colors} = useTheme();
     const [update, setUpdate] = React.useState(false);
-    const [updateNote, setUpdateNote] = React.useState({
+    const [updateInfo, setUpdateInfo] = React.useState({
         title: title,
         date: `Edit in ${Date().slice(0, 15)}`,
         description: description,
@@ -27,54 +26,47 @@ export default function NoteDetail({ route }: IRouteProps) {
     })
     const [open, setOpen] = React.useState(false);
     
-    const onHandleUpdateNote = () => {
-        const colRef = collection(db, `users/${user?.uid}/Notas`);
-        updateDoc(doc(colRef, id), updateNote);
-        setNote(updateNote);
+    const onHandleupdateInfo = () => {
+        updateNote(updateInfo, id, user?.uid)
+        setNote(updateInfo);
         setUpdate(false);
     }
 
     React.useEffect(() => {
-        const colRef = doc(db, `users/${user?.uid}/Notas/${id}`);
-        getDoc(colRef).then((note: any) => {
-            setNote({
-                title: note.data().title,
-                date: note.data().date,
-                description: note.data().description,
-                color: note.data().color
-            })
+        getNote(id, user?.uid).then( noteinfo => {
+            setNote(noteinfo);
         })
     }, [])
 
     if (update) {
         return (
-            <View style={{...style.container, backgroundColor: `${updateNote.color}` }}>
-                <ColorOptions onHandleAction={onHandleUpdateNote} noteData={updateNote} setNoteData={setUpdateNote}/>
+            <View style={{...style.container, backgroundColor: `${updateInfo.color}` }}>
+                <ColorOptions onHandleAction={onHandleupdateInfo} noteData={updateInfo} setNoteData={setUpdateInfo}/>
                 <TextInput
                     mode='outlined'
-                    style={{ ...style.title, backgroundColor: `${updateNote.color}` }}
-                    outlineColor={updateNote.color}
-                    activeOutlineColor={updateNote.color}
-                    onChangeText={(text) => setUpdateNote({ ...updateNote, title: text })}
+                    style={{ ...style.title, backgroundColor: `${updateInfo.color}` }}
+                    outlineColor={updateInfo.color}
+                    activeOutlineColor={updateInfo.color}
+                    onChangeText={(text) => setUpdateInfo({ ...updateInfo, title: text })}
                     placeholder='Title'
-                    placeholderTextColor='black'
+                    placeholderTextColor='#00000080'
                     theme={{colors: {text: '#000000'}}}
                     keyboardType='ascii-capable'
-                    value={updateNote.title} />
+                    value={updateInfo.title} />
                 <Text style={{...style.dateText, marginLeft: 15}}>{note.date}</Text>
                 <TextInput
                     mode='outlined'
-                    style={{color: 'black', backgroundColor: `${updateNote.color}` }}
-                    outlineColor={updateNote.color}
-                    activeOutlineColor={updateNote.color}
+                    style={{color: 'black', backgroundColor: `${updateInfo.color}` }}
+                    outlineColor={updateInfo.color}
+                    activeOutlineColor={updateInfo.color}
                     numberOfLines={28}
                     multiline={true}
                     theme={{colors: {text: '#000000'}}}
-                    placeholderTextColor='black'
-                    onChangeText={(text) => setUpdateNote({ ...updateNote, description: text })}
+                    placeholderTextColor='#00000080'
+                    onChangeText={(text) => setUpdateInfo({ ...updateInfo, description: text })}
                     placeholder='description'
                     keyboardType='ascii-capable'
-                    value={updateNote.description} />
+                    value={updateInfo.description} />
             </View>
         )
     }

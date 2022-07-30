@@ -5,13 +5,12 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, doc, getDoc, collection } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const login = (email: string, password: string) => {
+export const signIn = ({email, password}: {email: string; password: string;}) => {
     if (email !== "" && password !== "") {
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
                 const colRef = doc(db, `users/${user.user.uid}`);
                 getDoc(colRef).then((user) => {
-                    console.log(user.data())
                     user.data() !== null && AsyncStorage.setItem('currentUser', JSON.stringify(user.data())).then(() => console.log('Login'));
                 })
             })
@@ -28,7 +27,6 @@ export const signUp = (userData: { name: string; email: string; password: string
     if (userData.email !== "" && userData.password !== "") {
         createUserWithEmailAndPassword(auth, userData.email, userData.password)
             .then((user) => {
-                console.log(user.user !== null && userData !== null)
                 if(user.user !== null && userData !== null) {
                     const currentUser = {
                         name: userData.name,
