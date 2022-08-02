@@ -1,12 +1,12 @@
 # Note
 
 ## About
-
+This project consist of the development of a mobile app for create, edit and delete notes that are stored in a registered account.
 
 ## Objetives
--
--
--
+- Create, delete and edit notes
+- Register a user
+- Display notes of a specific user
 
 ## Stack of Technologies
 - Typescript
