@@ -15,7 +15,7 @@
 - Firestore
 - React Native Paper
 
-### Video: <a href='https://www.youtube.com/watch?v=koFsRHriMtk&t=34s&ab_channel=GenaroBercini'>`https://www.youtube.com/watch?v=koFsRHriMtk&t=34s&ab_channel=GenaroBercini`<a/>
+### Video: <a href='https://www.youtube.com/watch?v=koFsRHriMtk&t=34s&ab_channel=GenaroBercini' target="_blank">`https://www.youtube.com/watch?v=koFsRHriMtk&t=34s&ab_channel=GenaroBercini`<a/>
 
 ## Project Screens
 <p align="center">
