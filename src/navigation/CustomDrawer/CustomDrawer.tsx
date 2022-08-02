@@ -7,7 +7,8 @@ import { DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./Styles";
-import { ICustomDrawerProps } from "../../../types";
+import { ICustomDrawerProps, INavigate } from "../../../types";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 export function CustomDrawer({ state, toggleTheme, isDarkTheme }: ICustomDrawerProps) {
     const [userData, setUserData] = React.useState({
@@ -15,6 +16,7 @@ export function CustomDrawer({ state, toggleTheme, isDarkTheme }: ICustomDrawerP
         email: '',
     });
     const { colors } = useTheme();
+    const navigation = useNavigation();
 
     React.useEffect(() => {
         getUserData();
@@ -37,7 +39,7 @@ export function CustomDrawer({ state, toggleTheme, isDarkTheme }: ICustomDrawerP
         try {
             AsyncStorage.removeItem('currentUser')
                 .then(result => {
-                    console.log('user removed', result);
+                    console.log('user removed');
                 })
         } catch (error) {
             console.log(error)
@@ -46,6 +48,7 @@ export function CustomDrawer({ state, toggleTheme, isDarkTheme }: ICustomDrawerP
 
     const onHandleSignOut = () => {
         removeUserData();
+        navigation.dispatch(DrawerActions.closeDrawer())
         signOut(auth)
     }
 

@@ -27,11 +27,19 @@ export default function SignUp() {
 
     useEffect(() => {
         setError(validate(userData));
-        setDisableButton(!error.name &&
+    }, [userData]);
+
+    useEffect(() => {
+        if (!error.name &&
             !error.email &&
             !error.password &&
-            !error.confirmPassword)
-    }, [userData])
+            !error.confirmPassword) {
+            setDisableButton(false);
+        }
+        else {
+            setDisableButton(true);
+        }
+    }, [error])
 
     const onHandleChange = (input: string, value: string) => {
         setUserData({
@@ -71,7 +79,7 @@ export default function SignUp() {
                     onChangeText={(name) => onHandleChange('name', name)}
                     placeholder='Name' />
                 <HelperText type="error" visible={error.name}>
-                    Existing or invalid Name
+                    Invalid Name
                 </HelperText>
                 <TextInput
                     mode='outlined'
@@ -98,7 +106,7 @@ export default function SignUp() {
                     placeholder='Password'
                     right={<TextInput.Icon name="eye" onPress={() => setVisiblePassword(!visiblePassword)} />} />
                 <HelperText type="error" visible={error.password}>
-                    Invalid Password
+                    Should include upper and lower case, numbers and at least 8 characters
                 </HelperText>
                 <TextInput
                     mode='outlined'
@@ -112,9 +120,9 @@ export default function SignUp() {
                     placeholder='Confirm Password'
                     right={<TextInput.Icon name="eye" onPress={() => setVisiblePassword(!visiblePassword)} />} />
                 <HelperText type="error" visible={error.confirmPassword}>
-                    Existing or invalid Password
+                    Password and confirm password should be same
                 </HelperText>
-                <Button style={style.button} disabled={disableButton} onPress={() => onHandleSignUp()}>Sign Up</Button>
+                <Button style={style.button} disabled={disableButton} color='white' onPress={() => onHandleSignUp()}>Sign Up</Button>
                 <View style={style.haveAccount}>
                     <Text style={style.haveAccountText}>Do you have an account ?</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>

@@ -54,6 +54,7 @@ export interface IRouteProps {
 
 export interface INavigate {
   navigate: (param1: string, param2?: object) => void;
+  closeDrawer: () => void;
   goBack: () => void;
   setParams: () => void;
   setOptions: (param1: object) => void;

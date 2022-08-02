@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../firebase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { setDoc, doc, getDoc, collection } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const signIn = ({email, password}: {email: string; password: string;}) => {
